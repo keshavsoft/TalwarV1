@@ -1,17 +1,20 @@
 let StartFunc = ({ inResponseAsJson }) => {
 
     const tbody = document.getElementById('tableBody');
+    const template = document.getElementById('rowTemplate');
 
-    let currentIndex = -1;
+    tbody.innerHTML = ''; // clear
 
-    // 🔥 render table
-    tbody.innerHTML = inResponseAsJson.map((item, i) => `
-        <tr class="border-t hover:bg-blue-100 odd:bg-gray-100">
-            <td class="px-4 py-2 border text-right">${i + 1}</td>
-            <td class="px-4 py-2 border">${item.SzCode}</td>
-            <td class="px-4 py-2 border">${item.SzName}</td>
-        </tr>
-    `).join('');
+    inResponseAsJson.forEach((item, i) => {
+        const clone = template.content.cloneNode(true);
+        const tds = clone.querySelectorAll('td');
+
+        tds[0].textContent = i + 1;
+        tds[1].textContent = item.SzCode;
+        tds[2].textContent = item.SzName;
+
+        tbody.appendChild(clone);
+    });
 
 };
 
